@@ -35,9 +35,25 @@ struct WeatherManger {
         }
         
         if let safeData = data {
-            let dataString = String(data: safeData, encoding: .utf8);
-            
-            print(dataString);
+            parseJson(weatherData: safeData);
         }
     }
+    
+    func parseJson(weatherData : Data) {
+        let decoder = JSONDecoder();
+        
+        do {
+            let decodedData = try decoder.decode(WeatherData.self, from: weatherData);
+            
+            let id = decodedData.weather[0].id;
+            let temp = decodedData.main.temp;
+            let name = decodedData.name;
+            
+            let weather = WeatherModel(conditionID: id, cityName: name, temperature: temp)
+        } catch  {
+            print(error);
+        }
+    }
+    
+    
 }

@@ -32,6 +32,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchTextField.endEditing(true);
+        
+        return true;
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
