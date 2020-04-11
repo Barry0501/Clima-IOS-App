@@ -8,19 +8,26 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
-
+class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherMangerDelegate{
     
+//    @IBOutlet weak var conditionImageView: UIImageView!
+//    @IBOutlet weak var temperatureLabel: UILabel!
+//    @IBOutlet weak var searchTextField: UITextField!
+//    @IBOutlet weak var cityLabel: UILabel!
+//
+    
+    @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var searchTextField: UITextField!
+    
     
     var weatherManager = WeatherManger();
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        weatherManager.delegate = self;
         searchTextField.delegate = self;
     }
 
@@ -51,6 +58,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         
         searchTextField.text = "";
+    }
+    
+    func didUpdateWeather(_ weatherManager : WeatherManger, weather : WeatherModel){
+        DispatchQueue.main.async {
+            self.temperatureLabel.text = weather.temperatureString;
+            self.conditionImageView.image = UIImage(systemName: weather.conditionName);
+        }
+    }
+    
+    func didFailWithError(error: Error) {
+        print(error);
     }
 }
 
